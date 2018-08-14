@@ -1,6 +1,6 @@
 # register-rs
 
-Common interface for MMIO and CPU registers
+Unified interface for MMIO and CPU registers.
 
 ## Usage
 
