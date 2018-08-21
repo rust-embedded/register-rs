@@ -1,3 +1,6 @@
+[![crates.io](https://img.shields.io/crates/d/register.svg)](https://crates.io/crates/register)
+[![crates.io](https://img.shields.io/crates/v/register.svg)](https://crates.io/crates/register)
+
 # register-rs
 
 Unified interface for MMIO and CPU registers.
