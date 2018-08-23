@@ -15,19 +15,26 @@
  *   - Andre Richter <andre.o.richter@gmail.com>
  */
 
-use tock_registers::registers::{Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName};
+use tock_registers::registers::{Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue};
 
 /// Trait for register R/W functions
 pub trait RegisterReadWrite<T: IntLike, R: RegisterLongName> {
-    #[inline]
+    /// Implement this as #[inline]
     fn get(&self) -> T;
 
-    #[inline]
+    /// Implement this as #[inline]
     fn set(&self, value: T);
 
     #[inline]
     fn read(&self, field: Field<T, R>) -> T {
         (self.get() & (field.mask << field.shift)) >> field.shift
+    }
+
+    #[inline]
+    fn read_as_enum<E: TryFromValue<T, EnumType = E>>(&self, field: Field<T, R>) -> Option<E> {
+        let val: T = self.read(field);
+
+        E::try_from(val)
     }
 
     #[inline]
@@ -69,12 +76,19 @@ pub trait RegisterReadWrite<T: IntLike, R: RegisterLongName> {
 
 /// Trait for register RO functions
 pub trait RegisterReadOnly<T: IntLike, R: RegisterLongName> {
-    #[inline]
+    /// Implement this as #[inline]
     fn get(&self) -> T;
 
     #[inline]
     fn read(&self, field: Field<T, R>) -> T {
         (self.get() & (field.mask << field.shift)) >> field.shift
+    }
+
+    #[inline]
+    fn read_as_enum<E: TryFromValue<T, EnumType = E>>(&self, field: Field<T, R>) -> Option<E> {
+        let val: T = self.read(field);
+
+        E::try_from(val)
     }
 
     #[inline]
@@ -100,7 +114,7 @@ pub trait RegisterReadOnly<T: IntLike, R: RegisterLongName> {
 
 /// Trait for register WO functions
 pub trait RegisterWriteOnly<T: IntLike, R: RegisterLongName> {
-    #[inline]
+    /// Implement this as #[inline]
     fn set(&self, value: T);
 
     #[inline]

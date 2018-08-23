@@ -1,6 +1,6 @@
 [package]
 name = "register"
-version = "0.1.1"
+version = "0.2.0"
 authors = [
         "Andre Richter <andre.o.richter@gmail.com>",
         "Tock Project Developers <tock-dev@googlegroups.com>"
@@ -14,4 +14,4 @@ categories = ["embedded", "hardware-support", "no-std"]
 license = "MIT/Apache-2.0"
 
 [dependencies.tock-registers]
-version = "0.1.0"
+version = "0.2.0"
