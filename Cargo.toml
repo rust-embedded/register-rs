@@ -1,13 +1,13 @@
 [package]
 name = "register"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
         "Andre Richter <andre.o.richter@gmail.com>",
         "Tock Project Developers <tock-dev@googlegroups.com>"
 ]
 description = "Common interface for MMIO and CPU registers"
-homepage = "https://github.com/rust-osdev/register-rs"
-repository = "https://github.com/rust-osdev/register-rs"
+homepage = "https://github.com/rust-embedded/register-rs"
+repository = "https://github.com/rust-embedded/register-rs"
 readme = "README.md"
 keywords = ["embedded", "registers", "mmio", "cpu", "bare-metal"]
 categories = ["embedded", "hardware-support", "no-std"]
