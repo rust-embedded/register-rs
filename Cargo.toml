@@ -1,6 +1,6 @@
 [package]
 name = "register"
-version = "0.2.1"
+version = "0.3.1"
 authors = [
         "Andre Richter <andre.o.richter@gmail.com>",
         "Tock Project Developers <tock-dev@googlegroups.com>"
@@ -12,6 +12,7 @@ readme = "README.md"
 keywords = ["embedded", "registers", "mmio", "cpu", "bare-metal"]
 categories = ["embedded", "hardware-support", "no-std"]
 license = "MIT/Apache-2.0"
+edition = "2018"
 
 [dependencies.tock-registers]
-version = "0.2.0"
+version = "0.3.0"
