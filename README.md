@@ -14,13 +14,9 @@ for the whole API.
 ### Defining a CPU register
 
 ```rust
-#![feature(use_extern_macros)]
 #![feature(asm)]
 
-#[macro_use]
-extern crate register;
-
-use register::cpu::RegisterReadWrite;
+use register::{cpu::RegisterReadWrite, register_bitfields};
 
 register_bitfields! {u32,
     CNTP_CTL_EL0 [
@@ -72,17 +68,13 @@ static CNTP_CTL_EL0: Reg = Reg {};
 fn main() {
     CNTP_CTL_EL0.modify(CNTP_CTL_EL0::ENABLE::SET + CNTP_CTL_EL0::IMASK::SET);
 }
+
 ```
 
 ### Defining MMIO registers
 
 ```rust
-#![feature(use_extern_macros)]
-
-#[macro_use]
-extern crate register;
-
-use register::mmio::*;
+use register::{mmio::*, register_bitfields};
 
 register_bitfields! {
     u32,
