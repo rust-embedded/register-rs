@@ -1,8 +1,6 @@
 #![feature(const_fn)]
 #![no_std]
 
-extern crate tock_registers;
-
 pub use tock_registers::{
     register_bitfields, register_bitmasks,
     registers::{Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue},
