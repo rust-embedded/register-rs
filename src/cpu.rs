@@ -15,7 +15,9 @@
  *   - Andre Richter <andre.o.richter@gmail.com>
  */
 
-use tock_registers::registers::{Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue};
+use tock_registers::registers::{
+    Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue,
+};
 
 /// Trait for register R/W functions
 pub trait RegisterReadWrite<T: IntLike, R: RegisterLongName> {

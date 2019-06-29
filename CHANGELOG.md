@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.3.3] - 2019-06-29
+
+- Update Readme with deref pattern example.
+
 ## [v0.3.2] - 2018-12-20
 
 - Update Readme for Rust 2018 as well.
@@ -38,3 +42,4 @@
 [v0.2.1]: https://github.com/rust-embedded/register-rs/compare/v0.2.0...v0.2.1
 [v0.3.1]: https://github.com/rust-embedded/register-rs/compare/v0.2.1...v0.3.1
 [v0.3.2]: https://github.com/rust-embedded/register-rs/compare/v0.3.1...v0.3.2
+[v0.3.3]: https://github.com/rust-embedded/register-rs/compare/v0.3.2...v0.3.3
