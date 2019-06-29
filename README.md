@@ -3,15 +3,103 @@
 
 # register-rs
 
-Unified interface for MMIO and CPU registers.
+Unified interface for type-safe MMIO and CPU register access in Rust.
 
+## Outline
+
+- [Usage](#usage)
+  - [Defining MMIO registers](#defining-mmio-registers)
+    - [The Deref pattern for drivers](#the-deref-pattern-for-drivers)
+  - [Defining CPU registers](defining-cpu-registers)
+- [License](#license)
+- [Contribution](#contribution)
+  
 ## Usage
 
 This crate uses the tock-register-interface, please refer to their
 [Readme](https://github.com/tock/tock/tree/master/libraries/tock-register-interface)
 for the whole API.
 
-### Defining a CPU register
+### Defining MMIO registers
+
+```rust
+use register::{mmio::*, register_bitfields};
+
+register_bitfields! {
+    u32,
+
+    GPFSEL1 [
+        FSEL14 OFFSET(12) NUMBITS(3) [
+            Input = 0b000,
+            Output = 0b001,
+            TXD0 = 0b100
+        ],
+
+        FSEL15 OFFSET(15) NUMBITS(3) [
+            Input = 0b000,
+            Output = 0b001,
+            RXD0 = 0b100
+        ]
+    ]
+}
+
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct RegisterBlock {
+    GPFSEL1: ReadWrite<u32, GPFSEL1::Register>, // 0x00
+    SYSTMR_HI: ReadOnly<u32>,                   // 0x04
+}
+
+fn main() {
+    let regs = 0x1337_0000 as *const RegisterBlock;
+
+    unsafe { (*regs).SYSTMR_HI.get() };
+}
+```
+
+#### The Deref pattern for drivers
+
+The `MMIO` part of this crate can and will often be used for implementing device drivers. In this case, you might find the `Deref pattern` useful for referencing your registers. It alleviates you from manually dereferencing each time a register access is due, and also encapsulates the `unsafe` keyword.
+
+Here is an example (extending the code snippet from above):
+
+```rust
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct RegisterBlock {
+    GPFSEL1: ReadWrite<u32, GPFSEL1::Register>, // 0x00
+    SYSTMR_HI: ReadOnly<u32>,                   // 0x04
+}
+
+pub struct DeviceDriver {
+    base_addr: usize,
+}
+
+impl ops::Deref for DeviceDriver {
+    type Target = RegisterBlock;
+
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.ptr() }
+    }
+}
+
+impl DeviceDriver {
+    pub fn new(base_addr: usize) -> Self {
+        DeviceDriver { base_addr }
+    }
+
+    /// Returns a pointer to the register block
+    fn ptr(&self) -> *const RegisterBlock {
+        self.base_addr as *const _
+    }
+    
+    fn do_something(&self) -> u32 {
+        self.GPFSEL1.set(0x1337);
+        self.SYSTMR_HI.get();
+    }
+```
+
+### Defining CPU registers
 
 ```rust
 #![feature(asm)]
@@ -69,43 +157,6 @@ fn main() {
     CNTP_CTL_EL0.modify(CNTP_CTL_EL0::ENABLE::SET + CNTP_CTL_EL0::IMASK::SET);
 }
 
-```
-
-### Defining MMIO registers
-
-```rust
-use register::{mmio::*, register_bitfields};
-
-register_bitfields! {
-    u32,
-
-    GPFSEL1 [
-        FSEL14 OFFSET(12) NUMBITS(3) [
-            Input = 0b000,
-            Output = 0b001,
-            TXD0 = 0b100
-        ],
-
-        FSEL15 OFFSET(15) NUMBITS(3) [
-            Input = 0b000,
-            Output = 0b001,
-            RXD0 = 0b100
-        ]
-    ]
-}
-
-#[allow(non_snake_case)]
-#[repr(C)]
-pub struct RegisterBlock {
-    GPFSEL1: ReadWrite<u32, GPFSEL1::Register>, // 0x00
-    SYSTMR_HI: ReadOnly<u32>,                   // 0x04
-}
-
-fn main() {
-    let regs = 0x1337_0000 as *const RegisterBlock;
-
-    unsafe { (*regs).SYSTMR_HI.get() };
-}
 ```
 
 ## License
