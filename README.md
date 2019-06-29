@@ -10,7 +10,7 @@ Unified interface for type-safe MMIO and CPU register access in Rust.
 - [Usage](#usage)
   - [Defining MMIO registers](#defining-mmio-registers)
     - [The Deref pattern for drivers](#the-deref-pattern-for-drivers)
-  - [Defining CPU registers](defining-cpu-registers)
+  - [Defining CPU registers](#defining-cpu-registers)
 - [License](#license)
 - [Contribution](#contribution)
   
