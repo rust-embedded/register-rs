@@ -97,6 +97,7 @@ impl DeviceDriver {
         self.GPFSEL1.set(0x1337);
         self.SYSTMR_HI.get();
     }
+}
 ```
 
 ### Defining CPU registers
