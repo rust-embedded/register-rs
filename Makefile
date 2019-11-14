@@ -1,17 +1,18 @@
-TARGET := aarch64-unknown-none
+default: check
+	cargo build
 
-default:
-	cargo xbuild --target $(TARGET)
+check:
+	cd example && cargo build
 
 clippy:
-	cargo xclippy --target $(TARGET)
+	cargo clippy
 
 fmt:
 	cargo fmt
 
-ready: clippy fmt
+ready: clippy fmt check
 	git pull
 	cargo package --allow-dirty
 
 clean:
-	cargo clean
+	rm -rf target

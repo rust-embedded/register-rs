@@ -1,30 +1,23 @@
-/*
- * Copyright (c) 2018 by the author(s)
- *
- * =============================================================================
- *
- * Licensed under either of
- *   - Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
- *   - MIT License (http://opensource.org/licenses/MIT)
- * at your option.
- *
- * =============================================================================
- *
- * Author(s):
- *   - Tock Project Developers <tock-dev@googlegroups.com>
- *   - Andre Richter <andre.o.richter@gmail.com>
- */
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+//
+// Copyright (c) 2018-2019 by the author(s)
+//
+// Author(s):
+//   - Tock Project Developers <tock-dev@googlegroups.com>
+//   - Andre Richter <andre.o.richter@gmail.com>
+
+//! CPU traits.
 
 use tock_registers::registers::{
     Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue,
 };
 
-/// Trait for register R/W functions
+/// Trait for register R/W functions.
 pub trait RegisterReadWrite<T: IntLike, R: RegisterLongName> {
-    /// Implement this as #[inline]
+    /// Implement this as #[inline].
     fn get(&self) -> T;
 
-    /// Implement this as #[inline]
+    /// Implement this as #[inline].
     fn set(&self, value: T);
 
     #[inline]
@@ -76,9 +69,9 @@ pub trait RegisterReadWrite<T: IntLike, R: RegisterLongName> {
     }
 }
 
-/// Trait for register RO functions
+/// Trait for register RO functions.
 pub trait RegisterReadOnly<T: IntLike, R: RegisterLongName> {
-    /// Implement this as #[inline]
+    /// Implement this as #[inline].
     fn get(&self) -> T;
 
     #[inline]
@@ -114,9 +107,9 @@ pub trait RegisterReadOnly<T: IntLike, R: RegisterLongName> {
     }
 }
 
-/// Trait for register WO functions
+/// Trait for register WO functions.
 pub trait RegisterWriteOnly<T: IntLike, R: RegisterLongName> {
-    /// Implement this as #[inline]
+    /// Implement this as #[inline].
     fn set(&self, value: T);
 
     #[inline]

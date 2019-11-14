@@ -13,7 +13,7 @@ Unified interface for type-safe MMIO and CPU register access in Rust.
   - [Defining CPU registers](#defining-cpu-registers)
 - [License](#license)
 - [Contribution](#contribution)
-  
+
 ## Usage
 
 This crate uses the tock-register-interface, please refer to their
@@ -23,7 +23,7 @@ for the whole API.
 ### Defining MMIO registers
 
 ```rust
-use register::{mmio::*, register_bitfields};
+use register::{mmio::*, register_bitfields, register_structs};
 
 register_bitfields! {
     u32,
@@ -43,12 +43,15 @@ register_bitfields! {
     ]
 }
 
-#[allow(non_snake_case)]
-#[repr(C)]
-pub struct RegisterBlock {
-    GPFSEL1: ReadWrite<u32, GPFSEL1::Register>, // 0x00
-    SYSTMR_HI: ReadOnly<u32>,                   // 0x04
+register_structs! {
+    #[allow(non_snake_case)]
+    RegisterBlock {
+        (0x000 => GPFSEL1: ReadWrite<u32, GPFSEL1::Register>),
+        (0x004 => SYSTMR_HI: ReadOnly<u32>),
+        (0x008 => @END),
+    }
 }
+
 
 fn main() {
     let regs = 0x1337_0000 as *const RegisterBlock;
@@ -59,16 +62,25 @@ fn main() {
 
 #### The Deref pattern for drivers
 
-The `MMIO` part of this crate can and will often be used for implementing device drivers. In this case, you might find the `Deref pattern` useful for referencing your registers. It alleviates you from manually dereferencing each time a register access is due, and also encapsulates the `unsafe` keyword.
+The `MMIO` part of this crate can and will often be used for implementing device drivers. In this
+case, you might find the `Deref pattern` useful for referencing your registers. It alleviates you
+from manually dereferencing each time a register access is due, and also encapsulates the `unsafe`
+keyword.
 
 Here is an example (extending the code snippet from above):
 
 ```rust
-#[allow(non_snake_case)]
-#[repr(C)]
-pub struct RegisterBlock {
-    GPFSEL1: ReadWrite<u32, GPFSEL1::Register>, // 0x00
-    SYSTMR_HI: ReadOnly<u32>,                   // 0x04
+register_bitfields! {
+    u32,
+
+    // omitted
+}
+
+register_structs! {
+    #[allow(non_snake_case)]
+    pub RegisterBlock {
+        // omitted
+    }
 }
 
 pub struct DeviceDriver {
@@ -92,15 +104,18 @@ impl DeviceDriver {
     fn ptr(&self) -> *const RegisterBlock {
         self.base_addr as *const _
     }
-    
+
     fn do_something(&self) -> u32 {
         self.GPFSEL1.set(0x1337);
-        self.SYSTMR_HI.get();
+        self.SYSTMR_HI.get()
     }
 }
 ```
 
 ### Defining CPU registers
+
+For CPU registers, you only need to implement the respective read/write trait. All other methods are
+provided by default.
 
 ```rust
 #![feature(asm)]
@@ -109,23 +124,13 @@ use register::{cpu::RegisterReadWrite, register_bitfields};
 
 register_bitfields! {u32,
     CNTP_CTL_EL0 [
-        /// Enables the timer. Permitted values are:
-        ///
-        /// 0 Timer disabled.
-        /// 1 Timer enabled.
+        /// Enables the timer.
         ENABLE        OFFSET(0)  NUMBITS(1) [],
 
-        /// Timer interrupt mask bit. Permitted values are:
-        ///
-        /// 0 Timer interrupt is not masked by the IMASK bit.
-        /// 1 Timer interrupt is masked by the IMASK bit.
+        /// Timer interrupt mask bit.
         IMASK         OFFSET(1)  NUMBITS(1) [],
 
-        /// The status of the timer. This bit indicates whether the
-        /// timer condition is met:
-        ///
-        /// 0 Timer condition is not met.
-        /// 1 Timer condition is met.
+        /// The status of the timer.
         ISTATUS       OFFSET(2)  NUMBITS(1) []
     ]
 }
@@ -134,7 +139,7 @@ struct Reg;
 
 impl RegisterReadWrite<u32, CNTP_CTL_EL0::Register> for Reg {
     /// Reads the raw bits of the CPU register.
-    #[inline]
+    #[inline(always)]
     fn get(&self) -> u32 {
         let reg;
         unsafe {
@@ -144,7 +149,7 @@ impl RegisterReadWrite<u32, CNTP_CTL_EL0::Register> for Reg {
     }
 
     /// Writes raw bits to the CPU register.
-    #[inline]
+    #[inline(always)]
     fn set(&self, value: u32) {
         unsafe {
             asm!("msr CNTP_CTL_EL0, $0" :: "r"(value) :: "volatile");

@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.4.0] - 2019-11-14
+
+- Depend on tock-registers `0.4.x`.
+
 ## [v0.3.3] - 2019-06-29
 
 - Update Readme with deref pattern example.
@@ -25,8 +29,8 @@
 
 - Depend on tock-registers `0.2.0`.
 - Add `read_as_enum` to `cpu::RegisterReadWrite` and `cpu::RegisterReadOnly`.
-- Fix reexports. Too many structs and traits were reexportes under the `mmio`.
-  namespace. Reexport them at the toplevel now.
+- Fix reexports. Too many structs and traits were reexported under the `mmio` namespace. Reexport
+  them at the toplevel now.
 - Remove `#[inline]` from trait methods without body.
 
 ## [v0.1.1] - 2018-07-16
@@ -37,9 +41,3 @@
 
 - Initial Release.
 
-[v0.1.1]: https://github.com/rust-embedded/register-rs/compare/v0.1.0...v0.1.1
-[v0.2.0]: https://github.com/rust-embedded/register-rs/compare/v0.1.1...v0.2.0
-[v0.2.1]: https://github.com/rust-embedded/register-rs/compare/v0.2.0...v0.2.1
-[v0.3.1]: https://github.com/rust-embedded/register-rs/compare/v0.2.1...v0.3.1
-[v0.3.2]: https://github.com/rust-embedded/register-rs/compare/v0.3.1...v0.3.2
-[v0.3.3]: https://github.com/rust-embedded/register-rs/compare/v0.3.2...v0.3.3
