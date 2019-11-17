@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.4.1] - 2019-11-17
+
+- Reexport `InMemoryRegister` from tock-registers.
+
 ## [v0.4.0] - 2019-11-14
 
 - Depend on tock-registers `0.4.x`.
@@ -40,4 +44,3 @@
 ## v0.1.0 - 2018-07-07
 
 - Initial Release.
-

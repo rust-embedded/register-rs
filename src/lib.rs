@@ -21,7 +21,10 @@
 
 pub use tock_registers::{
     register_bitfields, register_bitmasks, register_structs,
-    registers::{Field, FieldValue, IntLike, LocalRegisterCopy, RegisterLongName, TryFromValue},
+    registers::{
+        Field, FieldValue, InMemoryRegister, IntLike, LocalRegisterCopy, RegisterLongName,
+        TryFromValue,
+    },
 };
 
 pub mod cpu;
