@@ -2,7 +2,8 @@ default: check
 	cargo build
 
 check:
-	cd example && cargo build
+	cargo run --example=main
+	cargo run --example=deref
 
 clippy:
 	cargo clippy

@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.4.2] - 2019-12-16
+
+- Reexport `register_fields` and `test_fields` from tock-registers.
+
 ## [v0.4.1] - 2019-11-17
 
 - Reexport `InMemoryRegister` from tock-registers.

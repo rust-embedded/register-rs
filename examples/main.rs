@@ -1,7 +1,3 @@
-extern crate register;
-
-mod deref;
-
 use register::{mmio::*, register_bitfields, register_structs};
 
 register_bitfields! {
@@ -31,10 +27,16 @@ register_structs! {
     }
 }
 
+#[repr(C)]
+struct Dummy {
+    _0: u32,
+    _1: u32,
+}
+
 fn main() {
-    let regs = 0x1337_0000 as *const RegisterBlock;
+    let stack_mem: Dummy = Dummy { _0: 11, _1: 12 };
 
-    unsafe { (*regs).SYSTMR_HI.get() };
+    let regs = &stack_mem as *const _ as *const RegisterBlock;
 
-    deref::main2();
+    println!("{}", unsafe { (*regs).SYSTMR_HI.get() });
 }

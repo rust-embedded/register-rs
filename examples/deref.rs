@@ -56,8 +56,16 @@ impl DeviceDriver {
     }
 }
 
-pub fn main2() {
-    let dev = DeviceDriver::new(0x1337_0000);
+#[repr(C)]
+struct Dummy {
+    _0: u32,
+    _1: u32,
+}
+
+fn main() {
+    let stack_mem: Dummy = Dummy { _0: 11, _1: 12 };
+
+    let dev = DeviceDriver::new(&stack_mem as *const _ as usize);
 
     println!("{}", dev.do_something());
 }

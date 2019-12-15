@@ -20,11 +20,12 @@
 #![no_std]
 
 pub use tock_registers::{
-    register_bitfields, register_bitmasks, register_structs,
+    register_bitfields, register_bitmasks, register_fields, register_structs,
     registers::{
         Field, FieldValue, InMemoryRegister, IntLike, LocalRegisterCopy, RegisterLongName,
         TryFromValue,
     },
+    test_fields,
 };
 
 pub mod cpu;
