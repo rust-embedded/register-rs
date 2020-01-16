@@ -45,13 +45,12 @@ register_bitfields! {
 
 register_structs! {
     #[allow(non_snake_case)]
-    RegisterBlock {
+    pub RegisterBlock {
         (0x000 => GPFSEL1: ReadWrite<u32, GPFSEL1::Register>),
         (0x004 => SYSTMR_HI: ReadOnly<u32>),
         (0x008 => @END),
     }
 }
-
 
 fn main() {
     let regs = 0x1337_0000 as *const RegisterBlock;
@@ -123,7 +122,7 @@ provided by default.
 use register::{cpu::RegisterReadWrite, register_bitfields};
 
 register_bitfields! {u32,
-    CNTP_CTL_EL0 [
+    pub CNTP_CTL_EL0 [
         /// Enables the timer.
         ENABLE        OFFSET(0)  NUMBITS(1) [],
 
@@ -163,6 +162,31 @@ fn main() {
     CNTP_CTL_EL0.modify(CNTP_CTL_EL0::ENABLE::SET + CNTP_CTL_EL0::IMASK::SET);
 }
 
+```
+
+## Testing
+
+In order to use this crate in `custom_test_frameworks` environments, please set the
+`no_std_unit_tests` feature flag in your dependency section.
+
+Otherwise, you might encounter errors like the following:
+
+```console
+error[E0463]: can't find crate for `test`
+  --> src/bsp/driver/bcm/bcm2xxx_gpio.rs:52:1
+   |
+52 | / register_structs! {
+53 | |     #[allow(non_snake_case)]
+54 | |     RegisterBlock {
+55 | |         (0x00 => GPFSEL0: ReadWrite<u32>),
+...  |
+66 | |     }
+67 | | }
+   | |_^ can't find crate
+   |
+   = note: this error originates in a macro outside of the current crate (in Nightly builds, run with -Z external-macro-backtrace for more info)
+
+error: aborting due to previous error
 ```
 
 ## License

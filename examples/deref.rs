@@ -21,7 +21,7 @@ register_bitfields! {
 
 register_structs! {
     #[allow(non_snake_case)]
-    RegisterBlock {
+    pub RegisterBlock {
         (0x000 => GPFSEL1: ReadWrite<u32, GPFSEL1::Register>),
         (0x004 => SYSTMR_HI: ReadOnly<u32>),
         (0x008 => @END),

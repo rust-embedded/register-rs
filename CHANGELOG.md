@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5.0] - 2020-01-16
+
+- Depend on tock-registers `0.5.0`.
+    - This might introduce some breakage that must be resolved by adding `pub` visibility keywords
+      in respective places.
+
 ## [v0.4.2] - 2019-12-16
 
 - Reexport `register_fields` and `test_fields` from tock-registers.

@@ -1,6 +1,6 @@
 [package]
 name = "register"
-version = "0.4.2"
+version = "0.5.0"
 authors = [
         "Andre Richter <andre.o.richter@gmail.com>",
         "Tock Project Developers <tock-dev@googlegroups.com>"
@@ -21,5 +21,9 @@ exclude = [
         "Makefile",
 ]
 
+[features]
+default = []
+no_std_unit_tests = ["tock-registers/no_std_unit_tests"]
+
 [dependencies.tock-registers]
-version = "0.4.x"
+version = "0.5.x"
