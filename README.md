@@ -117,7 +117,7 @@ For CPU registers, you only need to implement the respective read/write trait. A
 provided by default.
 
 ```rust
-#![feature(asm)]
+#![feature(llvm_asm)]
 
 use register::{cpu::RegisterReadWrite, register_bitfields};
 
@@ -142,7 +142,7 @@ impl RegisterReadWrite<u32, CNTP_CTL_EL0::Register> for Reg {
     fn get(&self) -> u32 {
         let reg;
         unsafe {
-            asm!("mrs $0, CNTP_CTL_EL0" : "=r"(reg) ::: "volatile");
+            llvm_asm!("mrs $0, CNTP_CTL_EL0" : "=r"(reg) ::: "volatile");
         }
         reg
     }
@@ -151,7 +151,7 @@ impl RegisterReadWrite<u32, CNTP_CTL_EL0::Register> for Reg {
     #[inline(always)]
     fn set(&self, value: u32) {
         unsafe {
-            asm!("msr CNTP_CTL_EL0, $0" :: "r"(value) :: "volatile");
+            llvm_asm!("msr CNTP_CTL_EL0, $0" :: "r"(value) :: "volatile");
         }
     }
 }
