@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.0] - 2020-11-23
+
+- Depend on tock-registers `0.6.0`.
+    - This breaks code that depends on `InMemoryRegister` being `Copy`.
+
+Note: This is the first release that doesn't stay in sync with `tock-register`'s version number
+anymore. Starting with this release, we will bump the major version anytime breakage is introduced
+
 ## [v0.5.0] - 2020-01-16
 
 - Depend on tock-registers `0.5.0`.
