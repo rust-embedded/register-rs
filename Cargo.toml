@@ -1,6 +1,6 @@
 [package]
 name = "register"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
         "Andre Richter <andre.o.richter@gmail.com>",
         "Tock Project Developers <tock-dev@googlegroups.com>"

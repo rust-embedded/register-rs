@@ -17,8 +17,11 @@ Unified interface for type-safe MMIO and CPU register access in Rust.
 ## Usage
 
 This crate uses the tock-register-interface, please refer to their
-[Readme](https://github.com/tock/tock/tree/master/libraries/tock-register-interface)
-for the whole API.
+[Readme](https://github.com/tock/tock/tree/master/libraries/tock-register-interface) for the whole
+API. Make sure to check the `register_structs!` explanation, especially the fact that you must
+[explicitly annotate gaps].
+
+[explicitly annotate gaps]: https://github.com/tock/tock/tree/master/libraries/tock-register-interface#defining-registers
 
 ### Defining MMIO registers
 
