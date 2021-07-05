@@ -1,6 +1,17 @@
 [![crates.io](https://img.shields.io/crates/d/register.svg)](https://crates.io/crates/register)
 [![crates.io](https://img.shields.io/crates/v/register.svg)](https://crates.io/crates/register)
 
+# Deprecated
+
+**DEPRECATED: This crate is no longer supported, and dependents are instead recommended to switch to
+[tock-registers](https://crates.io/crates/tock-registers).**
+
+**register-rs** was started with a single goal: To bring the goodness of `tock-registers`, which in
+the past was only available for `MMIO` registers, to `CPU` registers as well, to provide a unified
+interface for both. Since release [0.7.0](https://crates.io/crates/tock-registers/0.7.0),
+`tock-registers` now itself provides the infrastructure to implement the `tock` register traits for
+`CPU` registers, rendering this crate obsolete.
+
 # register-rs
 
 Unified interface for type-safe MMIO and CPU register access in Rust.
